@@ -1,6 +1,8 @@
 package com.example.sunnyweather.ui.place
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sunnyweather.R
+import com.example.sunnyweather.logic.model.PlaceResponse
 import kotlinx.android.synthetic.main.fragment_place.*
 
 
@@ -42,31 +45,43 @@ class PlaceFragment : Fragment() {
         recycleView.layoutManager = layoutManager
         adapter = PlaceAdapter(this,viewModel.placeList)
         recycleView.adapter = adapter
-//        searchPlaceEdit.addTextChangedListener{editable ->
-//            val content = editable.toString()
-//            if (content.isNotEmpty()){
-//                viewModel.searchPlaces(content)
-//            }else{
-//                recycleView.visibility = View.GONE
-//                bgImageView.visibility = View.VISIBLE
-//                viewModel.placeList.clear()
-//                adapter.notifyDataSetChanged()
-//            }
-//        }
+        searchPlaceEdit.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                val content = p0.toString()
+                if (content.isNotEmpty()){
+                    viewModel.searchPlaces(content)
+                }else{
+                    recycleView.visibility = View.GONE
+                    bgImageView.visibility = View.VISIBLE
+                    viewModel.placeList.clear()
+                    adapter.notifyDataSetChanged()
+                }
+            }
 
-//        viewModel.placeLiveData.observe(this, Observer { result ->
-//            val places = result.getOrNull()
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+        })
+
+
+        viewModel.placeLiveData.observe(this, Observer { result ->
+//            val places = result!!
+//
 //            if (places != null){
 //                recycleView.visibility = View.VISIBLE
 //                bgImageView.visibility = View.GONE
 //                viewModel.placeList.clear()
-//                viewModel.placeList.addAll(places)
+//                viewModel.placeList.addAll()
 //                adapter.notifyDataSetChanged()
 //            }else{
 //                Toast.makeText(activity,"未能查询到任何地点",Toast.LENGTH_SHORT).show()
-//                result
 //            }
-//        })
+            //ToDO
+        })
     }
 }
 

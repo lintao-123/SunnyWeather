@@ -5,7 +5,6 @@
     android:layout_height="130dp"
     android:layout_width="match_parent"
     android:layout_margin="12dp"
-    app:cardCorneRadius ="4dp"
     >
     <LinearLayout
         android:orientation="vertical"
